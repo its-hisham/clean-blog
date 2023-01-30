@@ -16,10 +16,19 @@ const fileUpload = require('express-fileupload')
 
 app.set('view engine', 'ejs')
 
+const validateMiddlWare = (req,res,next) =>{
+     if(req.files==null || req.body.title==null){
+        return res.redirect('/posts/new')
+     }
+     next()
+}
+
+
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(fileUpload())
+app.use('/posts/store',validateMiddlWare)
 
 app.listen(4000, () => {
     console.log('App listening on port 4000')
